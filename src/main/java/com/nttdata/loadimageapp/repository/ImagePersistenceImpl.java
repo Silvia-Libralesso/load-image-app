@@ -31,17 +31,6 @@ public class ImagePersistenceImpl implements ImagePersistence {
 
     @Override
     public List<Image> findImageAll() {
-        /*List<ImageEntity> images = this.imageDao.findAll();
-
-        List<Image> misimagenes = new ArrayList<>();
-
-        for(ImageEntity img: images){
-            mapper.imgEntityToImage(img);
-        }
-
-        return misimagenes;
-
-        */
 
         return imageDao.findAll()
                 .stream()
