@@ -14,19 +14,40 @@ public class ImageDTO {
 
     private String campaign;
 
+    private int sequence;
+
+    private String set_;
+
     private String tags;
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
+
+    public String getSet_() {
+        return set_;
+    }
+
+    public void setSet_(String set_) {
+        this.set_ = set_;
+    }
 
     private List<VariantEntity> variants;
 
-    public ImageDTO(Integer id_image, String id, String code, String campaign, String tags, List<VariantEntity> variants) {
+    public ImageDTO(Integer id_image, String id, String code, String campaign, int sequence, String set_, String tags, List<VariantEntity> variants) {
         this.id_image = id_image;
         this.id = id;
         this.code = code;
         this.campaign = campaign;
+        this.sequence = sequence;
+        this.set_ = set_;
         this.tags = tags;
         this.variants = variants;
     }
-
 
     public ImageDTO() {
     }
