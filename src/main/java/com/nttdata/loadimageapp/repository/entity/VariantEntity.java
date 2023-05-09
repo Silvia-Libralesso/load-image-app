@@ -24,9 +24,9 @@ public class VariantEntity {
     @NotBlank(message = "El campo tags no puede estar vacío.")
     private String tags;
 
-    @Column (name="relativePath")
+    @Column (name="relative_path")
     @NotBlank (message = "El campo relativePath no puede estar vacío.")
-    private String relativePath;
+    private String relative_path;
 
     @Column (name="width")
     @NotNull(message = "El campo width no puede ser nulo.")
@@ -41,44 +41,23 @@ public class VariantEntity {
     private String extension;
 
     @ManyToOne
-    @JoinColumn (name="image_id")
+    @JoinColumn(name = "image_id")
     private ImageEntity image;
 
     public VariantEntity(){
 
     }
 
+
     public VariantEntity(Integer id, String tags, String relativePath, int width, int height, String extension, ImageEntity image) {
         this.id = id;
         this.tags = tags;
-        this.relativePath = relativePath;
+        this.relative_path = relativePath;
         this.width = width;
         this.height = height;
         this.extension = extension;
         this.image = image;
     }
-
-
-    public VariantEntity(Variant variant){
-        this.id = variant.getId();
-        this.tags = variant.getTags();
-        this.relativePath = variant.getRelativePath();
-        this.width = variant.getWidth();
-        this.height = variant.getHeight();
-        this.extension = variant.getExtension();
-        this.image = variant.getImage();
-    }
-
-
-    //para "convertir" un VariantEntity a Variant
-   /* public Variant toVariant(){
-        Variant variant = new Variant();
-        BeanUtils.copyProperties(this, variant);
-        return variant;
-    }
-
-    */
-
 
 
 
@@ -99,11 +78,11 @@ public class VariantEntity {
     }
 
     public String getRelativePath() {
-        return relativePath;
+        return relative_path;
     }
 
     public void setRelativePath(String relativePath) {
-        this.relativePath = relativePath;
+        this.relative_path = relativePath;
     }
 
     public int getWidth() {

@@ -36,9 +36,9 @@ public class ImageDTO {
         this.set_ = set_;
     }
 
-    private List<VariantEntity> variants;
+    private List<VarDTO> variants;
 
-    public ImageDTO(Integer id_image, String id, String code, String campaign, int sequence, String set_, String tags, List<VariantEntity> variants) {
+    public ImageDTO(Integer id_image, String id, String code, String campaign, int sequence, String set_, String tags, List<VarDTO> variants) {
         this.id_image = id_image;
         this.id = id;
         this.code = code;
@@ -92,11 +92,11 @@ public class ImageDTO {
         this.tags = tags;
     }
 
-    public List<VariantEntity> getVariants() {
+    public List<VarDTO> getVariants() {
         return variants;
     }
 
-    public void setVariants(List<VariantEntity> variants) {
+    public void setVariants(List<VarDTO> variants) {
         this.variants = variants;
     }
 }

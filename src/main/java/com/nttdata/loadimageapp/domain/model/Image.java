@@ -1,5 +1,6 @@
 package com.nttdata.loadimageapp.domain.model;
 
+import com.nttdata.loadimageapp.controllers.VarDTO;
 import com.nttdata.loadimageapp.repository.entity.ImageEntity;
 import com.nttdata.loadimageapp.repository.entity.VariantEntity;
 
@@ -23,7 +24,7 @@ public class Image {
     private String tags;
 
 
-    private List<VariantEntity> variants;
+    private List<VarDTO> variants;
 
 
     public Image(){
@@ -39,20 +40,6 @@ public class Image {
         this.tags = image.getTags();
 
     }
-
-    /*
-    public Image(String id, String code, String campaign, int sequence, String set_, String tags) {
-        this.id = id;
-        this.code = code;
-        this.campaign = campaign;
-        this.sequence = sequence;
-        this.set_ = set_;
-        this.tags = tags;
-
-    }
-
-    */
-
 
 
 
@@ -113,7 +100,7 @@ public class Image {
     }
 
     //@JsonManagedReference
-    public List<VariantEntity> getVariants(){
+    public List<VarDTO> getVariants(){
         return variants;
     }
 
@@ -121,7 +108,7 @@ public class Image {
         this.id_image = id_image;
     }
 
-    public void setVariants(List<VariantEntity> variants) {
+    public void setVariants(List<VarDTO> variants) {
         this.variants = variants;
     }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,7 +42,7 @@ public class ImageEntity {
     private String tags;
 
     @OneToMany (mappedBy = "image", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List <VariantEntity> variantEntities;
+    private List <VariantEntity> variantEntities = new ArrayList<>();
 
 
     public ImageEntity(){
@@ -59,28 +60,6 @@ public class ImageEntity {
         this.variantEntities = variantEntities;
     }
 
-/*
-    public ImageEntity(Image image){
-        this.id_image = image.getIdImage();
-        this.id = image.getId();
-        this.code = image.getCode();
-        this.campaign = image.getCampaign();
-        this.sequence = image.getSequence();
-        this.set_ = image.getSet_();
-        this.tags = image.getTags();
-        this.variantEntities = this.getVariants();
-    }
-
-
-
-    //para "convertir" un ImageEntity a Image
-    public Image toImage(){
-        Image image = new Image();
-        BeanUtils.copyProperties(this, image);
-        return image;
-    }
-
-    */
 
     public String getId() {
         return id;
