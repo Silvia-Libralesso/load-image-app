@@ -1,12 +1,10 @@
 package com.nttdata.loadimageapp.controllers;
 
-import com.nttdata.loadimageapp.repository.entity.VariantEntity;
-
 import java.util.List;
 
 public class ImageDTO {
 
-    private Integer id_image;
+    private Integer idimagen;
 
     private String id;
 
@@ -14,29 +12,50 @@ public class ImageDTO {
 
     private String campaign;
 
+    private int sequence;
+
+    private String set_;
+
     private String tags;
 
-    private List<VariantEntity> variants;
+    public int getSequence() {
+        return sequence;
+    }
 
-    public ImageDTO(Integer id_image, String id, String code, String campaign, String tags, List<VariantEntity> variants) {
-        this.id_image = id_image;
+    public void setSequence(int sequence) {
+        this.sequence = sequence;
+    }
+
+    public String getSet_() {
+        return set_;
+    }
+
+    public void setSet_(String set_) {
+        this.set_ = set_;
+    }
+
+    private List<VarDTO> variants;
+
+    public ImageDTO(Integer ididImage, String id, String code, String campaign, int sequence, String set_, String tags, List<VarDTO> variants) {
+        this.idimagen = ididImage;
         this.id = id;
         this.code = code;
         this.campaign = campaign;
+        this.sequence = sequence;
+        this.set_ = set_;
         this.tags = tags;
         this.variants = variants;
     }
 
-
     public ImageDTO() {
     }
 
-    public Integer getIdImage() {
-        return id_image;
+    public Integer getIdimagen() {
+        return idimagen;
     }
 
-    public void setIdImage(Integer id_image) {
-        this.id_image = id_image;
+    public void setIdimagen(Integer id_image) {
+        this.idimagen = id_image;
     }
 
     public String getId() {
@@ -71,11 +90,11 @@ public class ImageDTO {
         this.tags = tags;
     }
 
-    public List<VariantEntity> getVariants() {
+    public List<VarDTO> getVariants() {
         return variants;
     }
 
-    public void setVariants(List<VariantEntity> variants) {
+    public void setVariants(List<VarDTO> variants) {
         this.variants = variants;
     }
 }

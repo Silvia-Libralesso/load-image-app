@@ -1,12 +1,8 @@
-package com.nttdata.loadimageapp.domain.model;
+package com.nttdata.loadimageapp.controllers;
 
-import com.nttdata.loadimageapp.controllers.ImgDTO;
-import com.nttdata.loadimageapp.repository.entity.ImageEntity;
+public class VarDTO {
 
-public class Variant {
-
-    private Integer id;
-
+    private String id;
 
     private String tags;
 
@@ -22,29 +18,17 @@ public class Variant {
 
     private String extension;
 
+    public VarDTO(){
 
-    private ImgDTO image;
+    }
 
-
-    public Variant(Integer id, String tags, String relativePath, int width, int height, String extension, ImgDTO image) {
+    public VarDTO(String id, String tags, String relativePath, int width, int height, String extension) {
         this.id = id;
         this.tags = tags;
         this.relativePath = relativePath;
         this.width = width;
         this.height = height;
         this.extension = extension;
-        this.image = image;
-    }
-
-    public Variant() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getTags() {
@@ -87,11 +71,11 @@ public class Variant {
         this.extension = extension;
     }
 
-    public ImgDTO getImage() {
-        return image;
+    public String getId() {
+        return id;
     }
 
-    public void setImage(ImgDTO image) {
-        this.image = image;
+    public void setId(String id) {
+        this.id = id;
     }
 }

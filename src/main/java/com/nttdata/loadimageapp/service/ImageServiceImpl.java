@@ -52,7 +52,7 @@ public class ImageServiceImpl implements ImageService {
     public ImageDTO updateImage(ImageDTO imageDTO) {
 
         Image image = mapper.imageDTOToImage(imageDTO);
-        image.setIdImage(imageDTO.getIdImage());
+        image.setIdimgen(imageDTO.getIdimagen());
 
         return mapper.imageToImageDTO(imagePersistence.updateImage(image));
 

@@ -5,18 +5,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table (name="image")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ImageEntity {
 
+
     @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Integer id_image;
+    private Integer idimagen;
 
     @Column (name="id")
-    @NotBlank (message = "El campo id_image no puede estar vacío.")
+    @NotBlank (message = "El campo id no puede estar vacío.")
     private String id;
 
     @Column (name="code")
@@ -32,24 +34,24 @@ public class ImageEntity {
     private int sequence;
 
     @Column (name = "set_")
-    @JsonProperty("set") //para que el campo en el json se llame así, y no con el nombre que tiene en la BD
-    @NotBlank (message = "El campo set_ no puede ser nulo.") //
+    //@JsonProperty("set") //para que el campo en el json se llame así, y no con el nombre que tiene en la BD
+    //@NotBlank (message = "El campo set_ no puede ser nulo.") //
     private String set_;
 
     @Column (name = "tags")
     @NotBlank (message = "El campo tags no puede estar vacío.")
     private String tags;
 
-    @OneToMany (mappedBy = "image", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List <VariantEntity> variantEntities;
+    @OneToMany (mappedBy = "image", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List <VariantEntity> variantEntities = new ArrayList<>();
 
 
     public ImageEntity(){
         //vacío para el framework
     }
 
-    public ImageEntity(Integer id_image, String id, String code, String campaign, int sequence, String set_, String tags, List<VariantEntity> variantEntities) {
-        this.id_image = id_image;
+    public ImageEntity(Integer idimagen, String id, String code, String campaign, int sequence, String set_, String tags, List<VariantEntity> variantEntities) {
+        this.idimagen = idimagen;
         this.id = id;
         this.code = code;
         this.campaign = campaign;
@@ -59,28 +61,6 @@ public class ImageEntity {
         this.variantEntities = variantEntities;
     }
 
-/*
-    public ImageEntity(Image image){
-        this.id_image = image.getIdImage();
-        this.id = image.getId();
-        this.code = image.getCode();
-        this.campaign = image.getCampaign();
-        this.sequence = image.getSequence();
-        this.set_ = image.getSet_();
-        this.tags = image.getTags();
-        this.variantEntities = this.getVariants();
-    }
-
-
-
-    //para "convertir" un ImageEntity a Image
-    public Image toImage(){
-        Image image = new Image();
-        BeanUtils.copyProperties(this, image);
-        return image;
-    }
-
-    */
 
     public String getId() {
         return id;
@@ -90,12 +70,12 @@ public class ImageEntity {
         this.id = id;
     }
 
-    public Integer getIdImage() {
-        return id_image;
+    public Integer getIdimagen() {
+        return idimagen;
     }
 
-    public void setIdImage(Integer id) {
-        this.id_image = id;
+    public void setIdimagen(Integer id) {
+        this.idimagen = id;
     }
 
     public String getCode() {
