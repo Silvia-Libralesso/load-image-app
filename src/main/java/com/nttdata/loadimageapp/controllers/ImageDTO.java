@@ -1,12 +1,10 @@
 package com.nttdata.loadimageapp.controllers;
 
-import com.nttdata.loadimageapp.repository.entity.VariantEntity;
-
 import java.util.List;
 
 public class ImageDTO {
 
-    private Integer id_image;
+    private Integer idimagen;
 
     private String id;
 
@@ -38,8 +36,8 @@ public class ImageDTO {
 
     private List<VarDTO> variants;
 
-    public ImageDTO(Integer id_image, String id, String code, String campaign, int sequence, String set_, String tags, List<VarDTO> variants) {
-        this.id_image = id_image;
+    public ImageDTO(Integer ididImage, String id, String code, String campaign, int sequence, String set_, String tags, List<VarDTO> variants) {
+        this.idimagen = ididImage;
         this.id = id;
         this.code = code;
         this.campaign = campaign;
@@ -52,12 +50,12 @@ public class ImageDTO {
     public ImageDTO() {
     }
 
-    public Integer getIdImage() {
-        return id_image;
+    public Integer getIdimagen() {
+        return idimagen;
     }
 
-    public void setIdImage(Integer id_image) {
-        this.id_image = id_image;
+    public void setIdimagen(Integer id_image) {
+        this.idimagen = id_image;
     }
 
     public String getId() {

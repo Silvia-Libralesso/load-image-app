@@ -1,14 +1,12 @@
 package com.nttdata.loadimageapp.domain.model;
 
 import com.nttdata.loadimageapp.controllers.VarDTO;
-import com.nttdata.loadimageapp.repository.entity.ImageEntity;
-import com.nttdata.loadimageapp.repository.entity.VariantEntity;
 
 import java.util.List;
 
 public class Image {
 
-    private Integer id_image;
+    private Integer idimgen;
 
     private String id;
 
@@ -31,6 +29,7 @@ public class Image {
 
     }
 
+    /*
     public Image(ImageEntity image) { //poner aquí constructor con atributos en lugar de con objeto imageEntity????
         this.id = image.getId();
         this.code = image.getCode();
@@ -40,6 +39,7 @@ public class Image {
         this.tags = image.getTags();
 
     }
+    */
 
 
 
@@ -51,12 +51,12 @@ public class Image {
         this.id = id;
     }
 
-    public Integer getIdImage() {
-        return id_image;
+    public Integer getIdimgen() {
+        return idimgen;
     }
 
-    public void setIdImage(Integer id) {
-        this.id_image = id;
+    public void setIdimgen(Integer id) {
+        this.idimgen = id;
     }
 
     public String getCode() {
@@ -102,10 +102,6 @@ public class Image {
     //@JsonManagedReference
     public List<VarDTO> getVariants(){
         return variants;
-    }
-
-    public void setId_image(Integer id_image) {
-        this.id_image = id_image;
     }
 
     public void setVariants(List<VarDTO> variants) {

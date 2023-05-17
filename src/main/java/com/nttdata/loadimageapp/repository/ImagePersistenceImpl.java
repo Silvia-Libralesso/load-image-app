@@ -1,9 +1,11 @@
 package com.nttdata.loadimageapp.repository;
 
 import com.nttdata.loadimageapp.repository.dao.ImageDao;
+import com.nttdata.loadimageapp.repository.dao.VariantDao;
 import com.nttdata.loadimageapp.repository.entity.ImageEntity;
 import com.nttdata.loadimageapp.domain.model.Image;
 import com.nttdata.loadimageapp.domain.repository.ImagePersistence;
+import com.nttdata.loadimageapp.repository.entity.VariantEntity;
 import com.nttdata.loadimageapp.repository.mapper.ImgEntityImageMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +19,16 @@ import java.util.stream.Collectors;
 public class ImagePersistenceImpl implements ImagePersistence {
 
     private ImageDao imageDao;
+    private VariantDao variantDao;
     private ImgEntityImageMapper mapper;
 
 
     @Autowired
-    public ImagePersistenceImpl (ImageDao imageDao, ImgEntityImageMapper mapper){
+    public ImagePersistenceImpl (ImageDao imageDao, ImgEntityImageMapper mapper, VariantDao variantDao){
 
         this.imageDao = imageDao;
         this.mapper = mapper;
+        this.variantDao = variantDao;
     }
 
 
@@ -54,7 +58,15 @@ public class ImagePersistenceImpl implements ImagePersistence {
     public Image createImage(Image image) {
 
         ImageEntity imgE = mapper.imageToImgEntity(image);
+
+        //para que se rellene el campo idimagen de variant cuando creo una imagen y a la vez una variante asociada
+        List<VariantEntity> misvariantes = imgE.getVariants();
+        misvariantes.forEach((i) -> {
+            i.setImage(imgE);
+        });
+        
         this.imageDao.save(imgE);
+
         return mapper.imgEntityToImage(imgE);
 
     }
@@ -62,10 +74,30 @@ public class ImagePersistenceImpl implements ImagePersistence {
     @Override
     public Image updateImage(Image image) {
 
-        Optional<ImageEntity> imgEntity = this.imageDao.findById(image.getIdImage());
+        //Optional<ImageEntity> imgEntity = this.imageDao.findById(image.getIdimgen());
 
         ImageEntity imagen = new ImageEntity();
-        BeanUtils.copyProperties(imgEntity, imagen);
+
+        imagen.setIdimagen(image.getIdimgen());
+        imagen.setId(image.getId());
+        imagen.setCode(image.getCode());
+        imagen.setCampaign(image.getCampaign());
+        imagen.setSequence(image.getSequence());
+        imagen.setSet_(image.getSet_());
+        imagen.setTags(image.getTags());
+
+        ImageEntity imgE = mapper.imageToImgEntity(image);
+        List<VariantEntity> misvariantes = imgE.getVariants();
+        misvariantes.forEach((i) -> {
+            i.setImage(imgE);
+        });
+        //VariantEntity varE = this.variantDao.findById(image.)
+
+
+
+        //guardar, update, variante
+
+        //BeanUtils.copyProperties(imgEntity, imagen);
 
          return mapper.imgEntityToImage(this.imageDao.save(imagen));
     }

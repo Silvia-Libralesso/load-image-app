@@ -1,19 +1,15 @@
 package com.nttdata.loadimageapp.repository.entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import com.nttdata.loadimageapp.domain.model.Variant;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.BeanUtils;
-
 
 @Entity
 @Table (name="variant")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class VariantEntity {
 
     @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -40,7 +36,8 @@ public class VariantEntity {
     @NotBlank (message = "El campo extension no puede estar vacío.")
     private String extension;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
+    //@Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "image_id")
     private ImageEntity image;
 
