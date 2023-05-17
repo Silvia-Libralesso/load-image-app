@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Image {
 
-    private Integer idimgen;
+    private Integer idimagen;
 
     private String id;
 
@@ -51,12 +51,12 @@ public class Image {
         this.id = id;
     }
 
-    public Integer getIdimgen() {
-        return idimgen;
+    public Integer getIdimagen() {
+        return idimagen;
     }
 
-    public void setIdimgen(Integer id) {
-        this.idimgen = id;
+    public void setIdimagen(Integer id) {
+        this.idimagen = id;
     }
 
     public String getCode() {

@@ -7,6 +7,7 @@ import com.nttdata.loadimageapp.domain.model.Image;
 import com.nttdata.loadimageapp.domain.repository.ImagePersistence;
 import com.nttdata.loadimageapp.repository.entity.VariantEntity;
 import com.nttdata.loadimageapp.repository.mapper.ImgEntityImageMapper;
+import com.nttdata.loadimageapp.service.mapper.ImgDTOImgEntityMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,12 +24,14 @@ public class ImagePersistenceImpl implements ImagePersistence {
     private ImgEntityImageMapper mapper;
 
 
-    @Autowired
+
+
     public ImagePersistenceImpl (ImageDao imageDao, ImgEntityImageMapper mapper, VariantDao variantDao){
 
         this.imageDao = imageDao;
         this.mapper = mapper;
         this.variantDao = variantDao;
+
     }
 
 
@@ -78,7 +81,7 @@ public class ImagePersistenceImpl implements ImagePersistence {
 
         ImageEntity imagen = new ImageEntity();
 
-        imagen.setIdimagen(image.getIdimgen());
+        imagen.setIdimagen(image.getIdimagen());
         imagen.setId(image.getId());
         imagen.setCode(image.getCode());
         imagen.setCampaign(image.getCampaign());
@@ -87,10 +90,12 @@ public class ImagePersistenceImpl implements ImagePersistence {
         imagen.setTags(image.getTags());
 
         ImageEntity imgE = mapper.imageToImgEntity(image);
-        List<VariantEntity> misvariantes = imgE.getVariants();
-        misvariantes.forEach((i) -> {
-            i.setImage(imgE);
-        });
+
+
+        imagen.setVariantEntities(imgE.getVariants());
+
+
+
         //VariantEntity varE = this.variantDao.findById(image.)
 
 
