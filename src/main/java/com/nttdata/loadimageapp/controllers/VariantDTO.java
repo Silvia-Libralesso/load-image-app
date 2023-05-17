@@ -22,10 +22,10 @@ public class VariantDTO {
     private String extension;
 
 
-    private ImageEntity image;
+    private ImgDTO image;
 
 
-    public VariantDTO(Integer id, String tags, String relativePath, int width, int height, String extension, ImageEntity image) {
+    public VariantDTO(Integer id, String tags, String relativePath, int width, int height, String extension, ImgDTO image) {
         this.id = id;
         this.tags = tags;
         this.relativePath = relativePath;
@@ -86,11 +86,11 @@ public class VariantDTO {
         this.extension = extension;
     }
 
-    public ImageEntity getImage() {
+    public ImgDTO getImage() {
         return image;
     }
 
-    public void setImage(ImageEntity image) {
+    public void setImage(ImgDTO image) {
         this.image = image;
     }
 }

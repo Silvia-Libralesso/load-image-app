@@ -44,7 +44,7 @@ public class ImageController {
     @PutMapping(value = "/{id}")
     public ImageDTO updateImage(@PathVariable("id") Integer id, @Valid @RequestBody ImageDTO image) {
 
-        image.setIdImage(id);
+        image.setIdimagen(id);
         image = imageService.updateImage(image);
         return image;
     }

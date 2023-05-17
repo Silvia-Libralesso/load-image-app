@@ -8,13 +8,6 @@ import java.util.List;
 @Repository
 public interface ImagePersistence {
 
-    /*Image findById(Integer id);
-    List<Image> findAll(); //o Stream<Image> findAll();
-    Image save(Image image);
-    void deleteById(Integer id);
-
-    */
-
     List<Image> findImageAll();
     Image readById(Integer id);
     //Image getImage(Integer id);
