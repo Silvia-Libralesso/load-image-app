@@ -1,5 +1,6 @@
 package com.nttdata.loadimageapp.repository;
 
+import com.nttdata.loadimageapp.controllers.VarDTO;
 import com.nttdata.loadimageapp.repository.dao.ImageDao;
 import com.nttdata.loadimageapp.repository.dao.VariantDao;
 import com.nttdata.loadimageapp.repository.entity.ImageEntity;
@@ -8,21 +9,26 @@ import com.nttdata.loadimageapp.domain.repository.ImagePersistence;
 import com.nttdata.loadimageapp.repository.entity.VariantEntity;
 import com.nttdata.loadimageapp.repository.mapper.ImgEntityImageMapper;
 import com.nttdata.loadimageapp.service.mapper.ImgDTOImgEntityMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Repository
 public class ImagePersistenceImpl implements ImagePersistence {
 
-    private ImageDao imageDao;
-    private VariantDao variantDao;
-    private ImgEntityImageMapper mapper;
+    private final ImageDao imageDao;
+    private final VariantDao variantDao;
+    private final ImgEntityImageMapper mapper;
 
+    private static Logger logger = LoggerFactory.getLogger(ImagePersistenceImpl.class);
 
 
 
@@ -51,6 +57,9 @@ public class ImagePersistenceImpl implements ImagePersistence {
     public Image readById(Integer id) {
 
         ImageEntity imgE = this.imageDao.findById(id).get();
+
+        logger.debug("Print image by Id: "+ mapper.imgEntityToImage(imgE));
+
         return mapper.imgEntityToImage(imgE);
 
     }
@@ -60,10 +69,18 @@ public class ImagePersistenceImpl implements ImagePersistence {
     @Override
     public Image createImage(Image image) {
 
+        logger.debug("Print imagen pasada por parámetro createImage: " + image);
+
         ImageEntity imgE = mapper.imageToImgEntity(image);
+
+        logger.debug("Print imagen después de mapeo a Entity createImage: "+ imgE);
+        logger.debug("Variantes imagePersistence:" + imgE.getVariants());
 
         //para que se rellene el campo idimagen de variant cuando creo una imagen y a la vez una variante asociada
         List<VariantEntity> misvariantes = imgE.getVariants();
+
+        logger.debug("Print arraylist variantes imagePersistence: "+ misvariantes);
+
         misvariantes.forEach((i) -> {
             i.setImage(imgE);
         });
@@ -78,7 +95,7 @@ public class ImagePersistenceImpl implements ImagePersistence {
     public Image updateImage(Image image) {
 
         //Optional<ImageEntity> imgEntity = this.imageDao.findById(image.getIdimgen());
-
+        /*
         ImageEntity imagen = new ImageEntity();
 
         imagen.setIdimagen(image.getIdimagen());
@@ -88,11 +105,12 @@ public class ImagePersistenceImpl implements ImagePersistence {
         imagen.setSequence(image.getSequence());
         imagen.setSet_(image.getSet_());
         imagen.setTags(image.getTags());
-
+        */
         ImageEntity imgE = mapper.imageToImgEntity(image);
 
 
-        imagen.setVariantEntities(imgE.getVariants());
+
+        //imagen.setVariantEntities(imgE.getVariants());
 
 
 
@@ -104,7 +122,7 @@ public class ImagePersistenceImpl implements ImagePersistence {
 
         //BeanUtils.copyProperties(imgEntity, imagen);
 
-         return mapper.imgEntityToImage(this.imageDao.save(imagen));
+         return mapper.imgEntityToImage(this.imageDao.save(imgE));
     }
 
     @Override
