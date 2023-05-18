@@ -7,11 +7,10 @@ import com.nttdata.loadimageapp.repository.entity.VariantEntity;
 import com.nttdata.loadimageapp.domain.repository.VariantPersistence;
 import com.nttdata.loadimageapp.repository.mapper.VariantEntityVariantMapper;
 import com.nttdata.loadimageapp.service.mapper.ImgDTOImgEntityMapper;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.stereotype.Repository;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -19,14 +18,10 @@ import java.util.stream.Collectors;
 public class VariantPersistenceImpl implements VariantPersistence {
 
 
-    private VariantDao variantDao;
-    private ImageDao imageDao;
-    private VariantEntityVariantMapper mapper;
+    private final VariantDao variantDao;
+    private final ImageDao imageDao;
+    private final VariantEntityVariantMapper mapper;
 
-    private ImgDTOImgEntityMapper mapper2;
-
-
-    @Autowired
     public VariantPersistenceImpl (VariantDao variantDao, VariantEntityVariantMapper mapper, ImageDao imageDao){
 
         this.variantDao = variantDao;
@@ -63,7 +58,7 @@ public class VariantPersistenceImpl implements VariantPersistence {
     public Variant updateVariant(Variant variant) {
 
         //Optional<VariantEntity> varEntity = this.variantDao.findById(variant.getId());
-
+        /*
         VariantEntity variante = new VariantEntity();
         variante.setId(variant.getId());
         variante.setTags(variant.getTags());
@@ -71,6 +66,9 @@ public class VariantPersistenceImpl implements VariantPersistence {
         variante.setWidth(variant.getWidth());
         variante.setHeight(variant.getHeight());
         variante.setExtension(variant.getExtension());
+        */
+
+        VariantEntity variante = mapper.variantToVariantEntity(variant);
         ImageEntity imgE = this.imageDao.findById(variant.getImage().getIdimagen()).get();
         variante.setImage(imgE);
 
