@@ -17,7 +17,7 @@ public class ImageController {
 
 
     private final ImageService imageService;
-    private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
+    private final static Logger logger = LoggerFactory.getLogger(ImageController.class);
 
 
     public ImageController (ImageService imageService) {this.imageService = imageService;}
@@ -26,7 +26,7 @@ public class ImageController {
     @GetMapping
     public List<ImageDTO> listAllImage(){
         List<ImageDTO> imageEntities = imageService.findImageAll();
-
+        logger.debug("Imagen controller - listAllImage: {}", imageEntities);
         return imageEntities;
     }
 
@@ -34,20 +34,20 @@ public class ImageController {
     public ImageDTO getImage(@PathVariable("id") Integer id) {
 
         ImageDTO image = imageService.getImage(id);
-
+        logger.debug("Imagen controller - getImage por id: {}", image);
        return image;
     }
 
     @PostMapping
     public ImageDTO createImage(@Valid @RequestBody ImageDTO image){
 
-        logger.debug("Imagen controller - createImage: "+ image);
+        logger.debug("Imagen controller - createImage - imagen que llega a través del body: {}", image);
 
-        logger.debug("Imagen controller - createImage - las variantes (array): " + image.getVariants());
+        logger.debug("Imagen controller - createImage - las variantes (array): {}", image.getVariants());
 
         ImageDTO imageEntityCreate = imageService.createImage(image);
 
-        logger.debug("Imagen controller - createImage tras mapping:"+ imageEntityCreate);
+        logger.debug("Imagen controller - createImage tras mapping: {}", imageEntityCreate);
 
         return imageEntityCreate;
     }
@@ -55,8 +55,11 @@ public class ImageController {
     @PutMapping(value = "/{id}")
     public ImageDTO updateImage(@PathVariable("id") Integer id, @Valid @RequestBody ImageDTO image) {
 
+        logger.debug("Imagen controller - updateImage - imagen que llega a través del body: {}", image);
         image.setIdimagen(id);
         image = imageService.updateImage(image);
+
+        logger.debug("Imagen controller - updateImage - imagen actualizada: {}", image);
         return image;
     }
 

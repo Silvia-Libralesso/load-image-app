@@ -43,7 +43,7 @@ public class ImageEntity {
     private String tags;
 
     @OneToMany (mappedBy = "image", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List <VariantEntity> variantEntities;
+    private List <VariantEntity> variantEntities = new ArrayList<>();
 
 
     public ImageEntity(){
@@ -124,8 +124,6 @@ public class ImageEntity {
     }
 
     public void setVariantEntities(List<VariantEntity> variantEntities) {
-
-        this.variantEntities = new ArrayList<VariantEntity>();
         this.variantEntities = variantEntities;
     }
 }
