@@ -17,7 +17,7 @@ public class ImageController {
 
 
     private final ImageService imageService;
-    private static Logger logger = LoggerFactory.getLogger(ImageController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
 
 
     public ImageController (ImageService imageService) {this.imageService = imageService;}
