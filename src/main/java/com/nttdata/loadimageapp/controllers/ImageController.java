@@ -1,7 +1,10 @@
 package com.nttdata.loadimageapp.controllers;
 
 import com.nttdata.loadimageapp.domain.service.ImageService;
+import com.nttdata.loadimageapp.repository.ImagePersistenceImpl;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +16,10 @@ import java.util.List;
 public class ImageController {
 
 
-    private ImageService imageService;
+    private final ImageService imageService;
+    private static final Logger logger = LoggerFactory.getLogger(ImageController.class);
 
-    @Autowired
+
     public ImageController (ImageService imageService) {this.imageService = imageService;}
 
 
@@ -37,7 +41,14 @@ public class ImageController {
     @PostMapping
     public ImageDTO createImage(@Valid @RequestBody ImageDTO image){
 
+        logger.debug("Imagen controller - createImage: "+ image);
+
+        logger.debug("Imagen controller - createImage - las variantes (array): " + image.getVariants());
+
         ImageDTO imageEntityCreate = imageService.createImage(image);
+
+        logger.debug("Imagen controller - createImage tras mapping:"+ imageEntityCreate);
+
         return imageEntityCreate;
     }
 
