@@ -7,11 +7,12 @@ import com.nttdata.loadimageapp.repository.entity.VariantEntity;
 import com.nttdata.loadimageapp.domain.repository.VariantPersistence;
 import com.nttdata.loadimageapp.repository.mapper.VariantEntityVariantMapper;
 import com.nttdata.loadimageapp.service.mapper.ImgDTOImgEntityMapper;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.stereotype.Repository;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -19,14 +20,12 @@ import java.util.stream.Collectors;
 public class VariantPersistenceImpl implements VariantPersistence {
 
 
-    private VariantDao variantDao;
-    private ImageDao imageDao;
-    private VariantEntityVariantMapper mapper;
+    private final VariantDao variantDao;
+    private final ImageDao imageDao;
+    private final VariantEntityVariantMapper mapper;
 
-    private ImgDTOImgEntityMapper mapper2;
+    private static Logger logger = LoggerFactory.getLogger(VariantPersistenceImpl.class);
 
-
-    @Autowired
     public VariantPersistenceImpl (VariantDao variantDao, VariantEntityVariantMapper mapper, ImageDao imageDao){
 
         this.variantDao = variantDao;
@@ -37,13 +36,20 @@ public class VariantPersistenceImpl implements VariantPersistence {
 
     @Override
     public List<Variant> findVariantAll() {
-     return variantDao.findAll().stream().map(mapper::variantEntityToVariant).collect(Collectors.toList());
+     return variantDao.findAll()
+             .stream()
+             .map(mapper::variantEntityToVariant)
+             .collect(Collectors.toList());
     }
 
     @Override
     public Variant readById(Integer id) {
 
         VariantEntity varE = this.variantDao.findById(id).get();
+
+        logger.debug("Print id de la variante: {} " , id);
+        logger.debug("Print variante por id: {} " , mapper.variantEntityToVariant(varE));
+
         return mapper.variantEntityToVariant(varE);
     }
 
@@ -51,7 +57,14 @@ public class VariantPersistenceImpl implements VariantPersistence {
 
     @Override
     public Variant createVariant(Variant variant) {
+
+        logger.debug("Print variante pasada por parámetro createVariant: {}" , variant);
+
         VariantEntity varE = mapper.variantToVariantEntity(variant);
+
+        logger.debug("Print variantee después de mapeo a Entity createVariant: {}", varE);
+        logger.debug("Imagen de la variante: {}", varE.getImage());
+
         varE.getImage().setId(variant.getImage().getId());
 
 
@@ -62,15 +75,13 @@ public class VariantPersistenceImpl implements VariantPersistence {
     @Override
     public Variant updateVariant(Variant variant) {
 
-        //Optional<VariantEntity> varEntity = this.variantDao.findById(variant.getId());
+        logger.debug("Print variante pasada por parámetro updateVariant: {}" , variant);
 
-        VariantEntity variante = new VariantEntity();
-        variante.setId(variant.getId());
-        variante.setTags(variant.getTags());
-        variante.setRelativePath(variant.getRelativePath());
-        variante.setWidth(variant.getWidth());
-        variante.setHeight(variant.getHeight());
-        variante.setExtension(variant.getExtension());
+
+
+        VariantEntity variante = mapper.variantToVariantEntity(variant);
+        logger.debug("Print variante después de mapeo a Entity updateVariant: {}", variante);
+
         ImageEntity imgE = this.imageDao.findById(variant.getImage().getIdimagen()).get();
         variante.setImage(imgE);
 
@@ -82,6 +93,7 @@ public class VariantPersistenceImpl implements VariantPersistence {
     @Override
     public void deleteVariant(Integer id) {
 
+        logger.debug("Id a borrar (delete variant): {} " , id);
         this.variantDao.deleteById(id);
 
     }
