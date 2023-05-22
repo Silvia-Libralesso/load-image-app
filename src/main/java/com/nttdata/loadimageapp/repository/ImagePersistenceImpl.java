@@ -1,5 +1,6 @@
 package com.nttdata.loadimageapp.repository;
 
+
 import com.nttdata.loadimageapp.repository.dao.ImageDao;
 import com.nttdata.loadimageapp.repository.dao.VariantDao;
 import com.nttdata.loadimageapp.repository.entity.ImageEntity;
@@ -7,28 +8,32 @@ import com.nttdata.loadimageapp.domain.model.Image;
 import com.nttdata.loadimageapp.domain.repository.ImagePersistence;
 import com.nttdata.loadimageapp.repository.entity.VariantEntity;
 import com.nttdata.loadimageapp.repository.mapper.ImgEntityImageMapper;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
+
 import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 @Repository
 public class ImagePersistenceImpl implements ImagePersistence {
 
-    private ImageDao imageDao;
-    private VariantDao variantDao;
-    private ImgEntityImageMapper mapper;
+    private final ImageDao imageDao;
+    private final VariantDao variantDao;
+    private final ImgEntityImageMapper mapper;
+
+    private static Logger logger = LoggerFactory.getLogger(ImagePersistenceImpl.class);
 
 
-    @Autowired
+
     public ImagePersistenceImpl (ImageDao imageDao, ImgEntityImageMapper mapper, VariantDao variantDao){
 
         this.imageDao = imageDao;
         this.mapper = mapper;
         this.variantDao = variantDao;
+
     }
 
 
@@ -46,10 +51,11 @@ public class ImagePersistenceImpl implements ImagePersistence {
 
     @Override
     public Image readById(Integer id) {
+        Optional<ImageEntity> imageEntityOptional = this.imageDao.findById(id);
+        logger.debug("Print image by Id: {}", imageEntityOptional);
 
-        ImageEntity imgE = this.imageDao.findById(id).get();
-        return mapper.imgEntityToImage(imgE);
 
+        return imageEntityOptional.map(mapper::imgEntityToImage).orElse(null);
     }
 
 
@@ -57,10 +63,18 @@ public class ImagePersistenceImpl implements ImagePersistence {
     @Override
     public Image createImage(Image image) {
 
+        logger.debug("Print imagen pasada por parámetro createImage: " + image);
+
         ImageEntity imgE = mapper.imageToImgEntity(image);
+
+        logger.debug("Print imagen después de mapeo a Entity createImage: "+ imgE);
+        logger.debug("Variantes imagePersistence:" + imgE.getVariants());
 
         //para que se rellene el campo idimagen de variant cuando creo una imagen y a la vez una variante asociada
         List<VariantEntity> misvariantes = imgE.getVariants();
+
+        logger.debug("Print arraylist variantes imagePersistence: "+ misvariantes);
+
         misvariantes.forEach((i) -> {
             i.setImage(imgE);
         });
@@ -75,22 +89,25 @@ public class ImagePersistenceImpl implements ImagePersistence {
     public Image updateImage(Image image) {
 
         //Optional<ImageEntity> imgEntity = this.imageDao.findById(image.getIdimgen());
-
+        /*
         ImageEntity imagen = new ImageEntity();
 
-        imagen.setIdimagen(image.getIdimgen());
+        imagen.setIdimagen(image.getIdimagen());
         imagen.setId(image.getId());
         imagen.setCode(image.getCode());
         imagen.setCampaign(image.getCampaign());
         imagen.setSequence(image.getSequence());
         imagen.setSet_(image.getSet_());
         imagen.setTags(image.getTags());
-
+        */
         ImageEntity imgE = mapper.imageToImgEntity(image);
-        List<VariantEntity> misvariantes = imgE.getVariants();
-        misvariantes.forEach((i) -> {
-            i.setImage(imgE);
-        });
+
+
+
+        //imagen.setVariantEntities(imgE.getVariants());
+
+
+
         //VariantEntity varE = this.variantDao.findById(image.)
 
 
@@ -99,7 +116,7 @@ public class ImagePersistenceImpl implements ImagePersistence {
 
         //BeanUtils.copyProperties(imgEntity, imagen);
 
-         return mapper.imgEntityToImage(this.imageDao.save(imagen));
+         return mapper.imgEntityToImage(this.imageDao.save(imgE));
     }
 
     @Override
