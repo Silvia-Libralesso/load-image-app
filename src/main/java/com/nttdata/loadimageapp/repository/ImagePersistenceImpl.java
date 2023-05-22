@@ -1,6 +1,6 @@
 package com.nttdata.loadimageapp.repository;
 
-import com.nttdata.loadimageapp.controllers.VarDTO;
+
 import com.nttdata.loadimageapp.repository.dao.ImageDao;
 import com.nttdata.loadimageapp.repository.dao.VariantDao;
 import com.nttdata.loadimageapp.repository.entity.ImageEntity;
@@ -8,15 +8,11 @@ import com.nttdata.loadimageapp.domain.model.Image;
 import com.nttdata.loadimageapp.domain.repository.ImagePersistence;
 import com.nttdata.loadimageapp.repository.entity.VariantEntity;
 import com.nttdata.loadimageapp.repository.mapper.ImgEntityImageMapper;
-import com.nttdata.loadimageapp.service.mapper.ImgDTOImgEntityMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
 import java.util.List;
+
 import java.util.Optional;
 
 import java.util.stream.Collectors;
@@ -55,13 +51,11 @@ public class ImagePersistenceImpl implements ImagePersistence {
 
     @Override
     public Image readById(Integer id) {
+        Optional<ImageEntity> imageEntityOptional = this.imageDao.findById(id);
+        logger.debug("Print image by Id: {}", imageEntityOptional);
 
-        ImageEntity imgE = this.imageDao.findById(id).get();
 
-        logger.debug("Print image by Id: "+ mapper.imgEntityToImage(imgE));
-
-        return mapper.imgEntityToImage(imgE);
-
+        return imageEntityOptional.map(mapper::imgEntityToImage).orElse(null);
     }
 
 

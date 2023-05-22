@@ -6,14 +6,11 @@ import com.nttdata.loadimageapp.domain.model.Image;
 import com.nttdata.loadimageapp.repository.entity.ImageEntity;
 import org.mapstruct.Mapper;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface ImgDTOImgEntityMapper {
 
     ImgDTO imgEntityToImgDTO (ImageEntity imageEntity);
     ImageEntity imgDTOToImgEntity (ImgDTO imgDTO);
-
 
 
 }
