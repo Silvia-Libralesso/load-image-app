@@ -6,6 +6,8 @@ import com.nttdata.loadimageapp.domain.repository.VariantPersistence;
 import com.nttdata.loadimageapp.domain.service.VariantService;
 import com.nttdata.loadimageapp.service.mapper.VariantVariantDTOMapper;
 import org.aspectj.weaver.ast.Var;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,11 @@ import java.util.stream.Collectors;
 public class VariantServiceImpl implements VariantService {
 
 
-    private VariantPersistence variantPersistence;
-    private VariantVariantDTOMapper mapper;
+    private final VariantPersistence variantPersistence;
+    private final VariantVariantDTOMapper mapper;
 
+    private final static Logger logger = LoggerFactory.getLogger(ImageServiceImpl.class);
 
-    @Autowired
     public VariantServiceImpl (VariantPersistence variantPersistence, VariantVariantDTOMapper mapper){
         this.variantPersistence = variantPersistence;
         this.mapper = mapper;
@@ -39,20 +41,27 @@ public class VariantServiceImpl implements VariantService {
 
     @Override
     public VariantDTO getVariant(Integer id) {
-
+        logger.debug("Variante ServiceImpl- getVariant - id pasado por parámetro: {}", id);
         return mapper.variantToVariantDTO(variantPersistence.readById(id));   }
 
     @Override
     public VariantDTO createVariant(VariantDTO variantDTO) {
 
+        logger.debug("Variant ServiceImpl- createVariant - variante pasada por parámetro: {}", variantDTO);
+        logger.debug("Variant ServiceImpl- createVariant - imagen de la variante pasada por parámetro: {}", variantDTO.getImage());
+
         Variant variant = mapper.variantDTOToVariant(variantDTO);
+        logger.debug("Variant ServiceImpl- createVariant - tras mappeo: {}", variantDTO);
+
         return mapper.variantToVariantDTO(variantPersistence.createVariant(variant));
     }
 
     @Override
     public VariantDTO updateVariant(VariantDTO variantDTO) {
 
+        logger.debug("Variant ServiceImpl- updateVariant - variante pasada por parámetro: {}", variantDTO);
         Variant variant = mapper.variantDTOToVariant(variantDTO);
+        logger.debug("Variant ServiceImpl- updateVariant - variante tras mappeo a  image: {}", mapper.variantDTOToVariant(variantDTO));
         variant.setId(variantDTO.getId());
         return mapper.variantToVariantDTO(variantPersistence.updateVariant(variant));
     }
@@ -60,6 +69,7 @@ public class VariantServiceImpl implements VariantService {
     @Override
     public void deleteVariant(Integer id) {
 
+        logger.debug("Variante ServiceImpl- deleteVariant - id variant para borrar: {}", id);
         variantPersistence.deleteVariant(id);
     }
 

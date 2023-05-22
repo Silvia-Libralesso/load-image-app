@@ -36,8 +36,8 @@ public class ImageDTO {
 
     private List<VarDTO> variants;
 
-    public ImageDTO(Integer ididImage, String id, String code, String campaign, int sequence, String set_, String tags, List<VarDTO> variants) {
-        this.idimagen = ididImage;
+    public ImageDTO(Integer idimagen, String id, String code, String campaign, int sequence, String set_, String tags, List<VarDTO> variants) {
+        this.idimagen = idimagen;
         this.id = id;
         this.code = code;
         this.campaign = campaign;
@@ -50,12 +50,13 @@ public class ImageDTO {
     public ImageDTO() {
     }
 
+
     public Integer getIdimagen() {
         return idimagen;
     }
 
-    public void setIdimagen(Integer id_image) {
-        this.idimagen = id_image;
+    public void setIdimagen(Integer idimagen) {
+        this.idimagen = idimagen;
     }
 
     public String getId() {
