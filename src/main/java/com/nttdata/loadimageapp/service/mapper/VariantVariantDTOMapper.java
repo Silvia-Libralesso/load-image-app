@@ -6,10 +6,13 @@ import com.nttdata.loadimageapp.domain.model.Image;
 import com.nttdata.loadimageapp.domain.model.Variant;
 import org.mapstruct.Mapper;
 
+import java.util.Optional;
+
 @Mapper(componentModel = "spring")
 public interface VariantVariantDTOMapper {
 
     VariantDTO variantToVariantDTO (Variant variant);
     Variant variantDTOToVariant (VariantDTO variantDTO);
+
 
 }

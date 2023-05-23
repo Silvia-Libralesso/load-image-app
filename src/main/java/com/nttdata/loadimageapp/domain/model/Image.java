@@ -41,7 +41,16 @@ public class Image {
     }
     */
 
-
+    public Image(Integer idimagen, String id, String code, String campaign, int sequence, String set_, String tags, List<VarDTO> variants) {
+        this.idimagen = idimagen;
+        this.id = id;
+        this.code = code;
+        this.campaign = campaign;
+        this.sequence = sequence;
+        this.set_ = set_;
+        this.tags = tags;
+        this.variants = variants;
+    }
 
     public String getId() {
         return id;
