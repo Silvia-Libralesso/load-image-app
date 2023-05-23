@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface ImgEntityImageMapper
@@ -19,5 +20,9 @@ public interface ImgEntityImageMapper
     List<ImageEntity> mapListImgToImgEnt(List<Image> images);
 
     List<Image> mapListImgEntToImg(List<ImageEntity> images);
+
+
+
+
 
 }

@@ -6,13 +6,11 @@ import com.nttdata.loadimageapp.repository.entity.ImageEntity;
 import com.nttdata.loadimageapp.repository.entity.VariantEntity;
 import com.nttdata.loadimageapp.domain.repository.VariantPersistence;
 import com.nttdata.loadimageapp.repository.mapper.VariantEntityVariantMapper;
-import com.nttdata.loadimageapp.service.mapper.ImgDTOImgEntityMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 

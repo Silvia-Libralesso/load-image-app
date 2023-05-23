@@ -5,6 +5,7 @@ import com.nttdata.loadimageapp.domain.model.Variant;
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface VariantService {
