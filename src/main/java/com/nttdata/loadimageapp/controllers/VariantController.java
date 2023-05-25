@@ -29,12 +29,10 @@ public class VariantController {
 
     @GetMapping
     public ResponseEntity<List<VariantDTO>> listAllVariant() {
-        try {
+
             logger.debug("Variant controller - listAllVariant: {}", variantService.findVariantAll());
             return ResponseEntity.ok(variantService.findVariantAll());
-        }catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
         }
 
     @GetMapping(value = "/{id}")
@@ -42,12 +40,8 @@ public class VariantController {
 
         VariantDTO variant= variantService.getVariant(id).get();
         logger.debug("Variant controller - getVariant por id: {}", variant);
-        if(variant != null){
             return new ResponseEntity<>(variant, HttpStatus.OK);
-        }
-        else{
-            throw new VariantNotFoundException();
-        }
+
     }
 
     @PostMapping
@@ -57,13 +51,9 @@ public class VariantController {
 
         logger.debug("Variant controller - createVariant - la imgen de la variante: {}", variant.getImage());
         VariantDTO variantEntityCreate = variantService.createVariant(variant);
-        if(variantEntityCreate == null){
-            throw new ServerException();
-        }
-        else {
+
             logger.debug("Variant controller - createVariant tras mapping: {}", variantEntityCreate);
             return new ResponseEntity<>(variantEntityCreate, HttpStatus.CREATED);
-        }
     }
 
     @PutMapping(value = "/{id}")
@@ -73,13 +63,9 @@ public class VariantController {
         variant.setId(id);
         VariantDTO mivariant = variantService.updateVariant(variant);
 
-        if(mivariant == null){
-            throw new ServerException();
-        }
-        else {
             logger.debug("Variant controller - updateVariant - variante actualizada: {}", variant);
             return new ResponseEntity<>(mivariant, HttpStatus.OK);
-        }
+
     }
 
     @DeleteMapping(value = "/{id}")
