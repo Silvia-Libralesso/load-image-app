@@ -1,6 +1,7 @@
 package com.nttdata.loadimageapp.repository;
 
 import com.nttdata.loadimageapp.exceptions.ImageNotFoundException;
+import com.nttdata.loadimageapp.exceptions.RequiredRequestBodyException;
 import com.nttdata.loadimageapp.repository.dao.ImageDao;
 import com.nttdata.loadimageapp.repository.dao.VariantDao;
 import com.nttdata.loadimageapp.repository.entity.ImageEntity;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import java.util.stream.Collectors;
@@ -45,8 +47,6 @@ public class ImagePersistenceImpl implements ImagePersistence {
                 .stream()
                 .map(mapper::imgEntityToImage)
                 .collect(Collectors.toList());
-
-
     }
 
     @Override
@@ -70,6 +70,13 @@ public class ImagePersistenceImpl implements ImagePersistence {
     @Override
     public Image createImage(Image image) {
 
+
+
+        if(Objects.isNull(image)){
+            throw new RequiredRequestBodyException();
+        }
+        else {
+
         logger.debug("Print imagen pasada por parámetro createImage: {}" , image);
 
         ImageEntity imgE = mapper.imageToImgEntity(image);
@@ -85,10 +92,12 @@ public class ImagePersistenceImpl implements ImagePersistence {
         misvariantes.forEach((i) -> {
             i.setImage(imgE);
         });
-        
-        this.imageDao.save(imgE);
 
-        return mapper.imgEntityToImage(imgE);
+
+            this.imageDao.save(imgE);
+
+            return mapper.imgEntityToImage(imgE);
+        }
 
     }
 
@@ -97,21 +106,17 @@ public class ImagePersistenceImpl implements ImagePersistence {
 
         logger.debug("Print imagen pasada por parámetro updateImage: {}" , image);
 
+        if(!this.imageDao.findById(image.getIdimagen()).isPresent()){
+            throw new ImageNotFoundException();
+        }
+        else {
 
-        ImageEntity imgE = mapper.imageToImgEntity(image);
+            ImageEntity imgE = mapper.imageToImgEntity(image);
 
-        logger.debug("Print imagen después de mapeo a Entity updateImage: {}", imgE);
+            logger.debug("Print imagen después de mapeo a Entity updateImage: {}", imgE);
 
-        //imagen.setVariantEntities(imgE.getVariants());
-
-        //VariantEntity varE = this.variantDao.findById(image.)
-
-        //guardar, update, variante
-
-        //BeanUtils.copyProperties(imgEntity, imagen);
-
-         return mapper.imgEntityToImage(this.imageDao.save(imgE));
-
+            return mapper.imgEntityToImage(this.imageDao.save(imgE));
+        }
 
     }
 
@@ -121,5 +126,10 @@ public class ImagePersistenceImpl implements ImagePersistence {
         logger.debug("Id a borrar (delete image): {} " , id);
         this.imageDao.deleteById(id);
 
+    }
+
+    @Override
+    public Optional <Image> findByCode(String code){
+        return imageDao.findByCode(code);
     }
 }

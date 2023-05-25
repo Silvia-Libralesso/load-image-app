@@ -30,14 +30,9 @@ public class ImageController {
 
     @GetMapping
     public ResponseEntity<List<ImageDTO>> listAllImage(){
-        try{
+
             logger.debug("Imagen controller - listAllImage: {}", imageService.findImageAll());
             return ResponseEntity.ok(imageService.findImageAll());
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
     }
 
     @GetMapping(value = "/{id}")
@@ -52,36 +47,29 @@ public class ImageController {
     }
 
     @PostMapping
-    public  ResponseEntity <ImageDTO> createImage(@Valid @RequestBody ImageDTO image){
+    public  ResponseEntity <ImageDTO> createImage(@Valid @RequestBody ImageDTO imageDto){
 
-        logger.debug("Imagen controller - createImage - imagen que llega a través del body: {}", image);
+        logger.debug("Imagen controller - createImage - imagen que llega a través del body: {}", imageDto);
 
-        logger.debug("Imagen controller - createImage - las variantes (array): {}", image.getVariants());
-        ImageDTO imageEntityCreate = imageService.createImage(image);
-        if(imageEntityCreate == null){
-            throw new ServerException();
-        }
-        else {
+        logger.debug("Imagen controller - createImage - las variantes (array): {}", imageDto.getVariants());
+        ImageDTO imageEntityCreate = imageService.createImage(imageDto);
+
             logger.debug("Imagen controller - createImage tras mapping: {}", imageEntityCreate);
             return new ResponseEntity<>(imageEntityCreate, HttpStatus.CREATED);
-        }
+
 
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity <ImageDTO> updateImage(@PathVariable("id") Integer id, @Valid @RequestBody ImageDTO image) {
+    public ResponseEntity <ImageDTO> updateImage(@PathVariable("id") Integer id, @Valid @RequestBody ImageDTO imageDto) {
 
-        logger.debug("Imagen controller - updateImage - imagen que llega a través del body: {}", image);
-        image.setIdimagen(id);
-        ImageDTO miimagen = imageService.updateImage(image);
+        logger.debug("Imagen controller - updateImage - imagen que llega a través del body: {}", imageDto);
+        imageDto.setIdimagen(id);
+        ImageDTO miimagen = imageService.updateImage(imageDto);
 
-        if(miimagen == null){
-            throw new ServerException();
-        }
-        else {
             logger.debug("Imagen controller - updateImage - imagen actualizada: {}", miimagen);
             return new ResponseEntity<>(miimagen, HttpStatus.OK);
-        }
+
     }
 
     @DeleteMapping(value = "/{id}")
