@@ -40,9 +40,15 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ImageDTO getImage(Integer id) {
+    public Optional <ImageDTO> getImage(Integer id) {
         logger.debug("Imagen ServiceImpl- getImage - id pasado por parámetro: {}", id);
-    return mapper.imageToImageDTO(imagePersistence.readById(id));
+
+
+        ImageDTO imagenDTO = mapper.imageToImageDTO(imagePersistence.readById(id).get());
+
+        return mapper.wrap(imagenDTO);
+
+    //return mapper.imageToImageDTO(imagePersistence.readById(id));
 
     }
 

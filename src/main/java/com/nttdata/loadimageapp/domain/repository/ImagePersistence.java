@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface ImagePersistence {
 
     List<Image> findImageAll();
-    Image readById(Integer id);
+    Optional <Image> readById(Integer id);
     //Image getImage(Integer id);
     Image createImage(Image image);
     Image updateImage(Image image);

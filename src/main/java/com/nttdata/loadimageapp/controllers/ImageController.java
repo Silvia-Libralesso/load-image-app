@@ -43,15 +43,11 @@ public class ImageController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<ImageDTO> getImage(@PathVariable("id") Integer id) {
 
-        ImageDTO image = imageService.getImage(id);
+        ImageDTO image = imageService.getImage(id).get();
         logger.debug("Imagen controller - getImage por id: {}", image);
 
-    if(image != null){
         return new ResponseEntity<>(image, HttpStatus.OK);
-    }else {
-        throw new ImageNotFoundException();
-        //throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found");
-    }
+
       //return image.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found"));
     }
 
@@ -89,10 +85,10 @@ public class ImageController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public String deleteImage(@PathVariable("id") Integer id) {
+    public ResponseEntity<String> deleteImage(@PathVariable("id") Integer id) {
 
         imageService.deleteImage(id);
-        return "Imagen borrada.";
+        return  new ResponseEntity<>("Imagen borrada.", HttpStatus.OK);
     }
 
 

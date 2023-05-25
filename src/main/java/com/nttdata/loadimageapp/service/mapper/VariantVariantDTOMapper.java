@@ -14,5 +14,11 @@ public interface VariantVariantDTOMapper {
     VariantDTO variantToVariantDTO (Variant variant);
     Variant variantDTOToVariant (VariantDTO variantDTO);
 
+    default <T> T unwrapOptional(Optional<T> optional) {
+        return optional.orElse(null);
+    }
 
+    default <T> Optional<T> wrap(T value) {
+        return Optional.ofNullable(value);
+    }
 }

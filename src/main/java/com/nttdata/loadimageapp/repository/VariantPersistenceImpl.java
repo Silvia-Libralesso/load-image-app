@@ -41,14 +41,16 @@ public class VariantPersistenceImpl implements VariantPersistence {
     }
 
     @Override
-    public Variant readById(Integer id) {
+    public Optional<Variant> readById(Integer id) {
 
-        VariantEntity varE = this.variantDao.findById(id).get();
+        VariantEntity variantEntityE = this.variantDao.findById(id).get();
 
         logger.debug("Print id de la variante: {} " , id);
-        logger.debug("Print variante por id: {} " , mapper.variantEntityToVariant(varE));
+        logger.debug("Print variante por id: {} " , mapper.variantEntityToVariant(variantEntityE));
 
-        return mapper.variantEntityToVariant(varE);
+        Variant variant = mapper.variantEntityToVariant(variantEntityE);
+        return mapper.wrap(variant);
+
     }
 
 
