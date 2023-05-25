@@ -13,7 +13,7 @@ public interface VariantService {
 
 
      List<VariantDTO> findVariantAll();
-     VariantDTO getVariant(Integer id);
+     Optional<VariantDTO> getVariant(Integer id);
      VariantDTO createVariant(VariantDTO variant);
      VariantDTO updateVariant(VariantDTO variant);
      void deleteVariant(Integer id);

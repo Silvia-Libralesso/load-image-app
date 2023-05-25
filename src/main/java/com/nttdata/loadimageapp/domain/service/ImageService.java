@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface ImageService {
 
     List<ImageDTO> findImageAll();
-    ImageDTO getImage(Integer id);
+    Optional <ImageDTO> getImage(Integer id);
     ImageDTO createImage(ImageDTO imageDTO);
     ImageDTO updateImage(ImageDTO imageDTO);
     void deleteImage(Integer id);
