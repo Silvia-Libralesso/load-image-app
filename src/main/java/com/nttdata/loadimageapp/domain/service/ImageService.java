@@ -15,6 +15,7 @@ public interface ImageService {
     ImageDTO updateImage(ImageDTO imageDTO);
     void deleteImage(Integer id);
 
+    public Optional <ImageDTO> findByCode (String code);
 
 }
 

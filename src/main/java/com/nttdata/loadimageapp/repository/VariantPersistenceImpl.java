@@ -1,4 +1,7 @@
 package com.nttdata.loadimageapp.repository;
+import com.nttdata.loadimageapp.exceptions.ImageNotFoundException;
+import com.nttdata.loadimageapp.exceptions.RequiredRequestBodyException;
+import com.nttdata.loadimageapp.exceptions.VariantNotFoundException;
 import com.nttdata.loadimageapp.repository.dao.ImageDao;
 import com.nttdata.loadimageapp.repository.dao.VariantDao;
 import com.nttdata.loadimageapp.domain.model.Variant;
@@ -10,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,7 +47,7 @@ public class VariantPersistenceImpl implements VariantPersistence {
     @Override
     public Optional<Variant> readById(Integer id) {
 
-        VariantEntity variantEntityE = this.variantDao.findById(id).get();
+        VariantEntity variantEntityE = this.variantDao.findById(id).orElseThrow(() -> new VariantNotFoundException());
 
         logger.debug("Print id de la variante: {} " , id);
         logger.debug("Print variante por id: {} " , mapper.variantEntityToVariant(variantEntityE));
@@ -57,8 +61,11 @@ public class VariantPersistenceImpl implements VariantPersistence {
 
     @Override
     public Variant createVariant(Variant variant) {
-
         logger.debug("Print variante pasada por parámetro createVariant: {}" , variant);
+        if(Objects.isNull(variant)){
+            throw new RequiredRequestBodyException();
+        }
+        else {
 
         VariantEntity varE = mapper.variantToVariantEntity(variant);
 
@@ -67,9 +74,9 @@ public class VariantPersistenceImpl implements VariantPersistence {
 
         varE.getImage().setId(variant.getImage().getId());
 
-
-        this.variantDao.save(varE);
-        return mapper.variantEntityToVariant(varE);
+            this.variantDao.save(varE);
+            return mapper.variantEntityToVariant(varE);
+        }
     }
 
     @Override
@@ -77,17 +84,19 @@ public class VariantPersistenceImpl implements VariantPersistence {
 
         logger.debug("Print variante pasada por parámetro updateVariant: {}" , variant);
 
+        if(!this.imageDao.findById(variant.getId()).isPresent()){
+            throw new VariantNotFoundException();
+        }
+        else {
 
+            VariantEntity variante = mapper.variantToVariantEntity(variant);
+            logger.debug("Print variante después de mapeo a Entity updateVariant: {}", variante);
 
-        VariantEntity variante = mapper.variantToVariantEntity(variant);
-        logger.debug("Print variante después de mapeo a Entity updateVariant: {}", variante);
+            ImageEntity imgE = this.imageDao.findById(variant.getImage().getIdimagen()).get();
+            variante.setImage(imgE);
 
-        ImageEntity imgE = this.imageDao.findById(variant.getImage().getIdimagen()).get();
-        variante.setImage(imgE);
-
-        //BeanUtils.copyProperties(varEntity, variante);
-
-        return mapper.variantEntityToVariant(this.variantDao.save(variante));
+            return mapper.variantEntityToVariant(this.variantDao.save(variante));
+        }
     }
 
     @Override

@@ -85,4 +85,10 @@ public class ImageServiceImpl implements ImageService {
         imagePersistence.deleteImage(id);
     }
 
+    @Override
+    public Optional <ImageDTO> findByCode(String code){
+        ImageDTO imagenDTO =  mapper.imageToImageDTO(imagePersistence.findByCode(code).get());
+        return mapper.wrap(imagenDTO);
+    }
+
 }
