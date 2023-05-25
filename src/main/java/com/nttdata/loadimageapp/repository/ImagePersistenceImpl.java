@@ -1,5 +1,6 @@
 package com.nttdata.loadimageapp.repository;
 
+import com.nttdata.loadimageapp.exceptions.ImageNotFoundException;
 import com.nttdata.loadimageapp.repository.dao.ImageDao;
 import com.nttdata.loadimageapp.repository.dao.VariantDao;
 import com.nttdata.loadimageapp.repository.entity.ImageEntity;
@@ -49,13 +50,17 @@ public class ImagePersistenceImpl implements ImagePersistence {
     }
 
     @Override
-    public Image readById(Integer id) {
+    public Optional<Image> readById(Integer id) {
 
-        ImageEntity imgE = this.imageDao.findById(id).get();
+        ImageEntity imageEntity = this.imageDao.findById(id).orElseThrow(() -> new ImageNotFoundException());
 
         logger.debug("Print id de la imagen: {} " , id);
 
-        return mapper.imgEntityToImage(imgE);
+
+        Image imagen = mapper.imgEntityToImage(imageEntity);
+
+        return mapper.wrap(imagen);
+
         //return mapper.imageEntityToImage(imgE);
 
     }

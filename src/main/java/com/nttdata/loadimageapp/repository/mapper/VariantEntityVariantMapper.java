@@ -14,6 +14,12 @@ public interface VariantEntityVariantMapper {
     Variant variantEntityToVariant (VariantEntity variantEntity);
     VariantEntity variantToVariantEntity (Variant variant);
 
+    default <T> T unwrapOptional(Optional<T> optional) {
+        return optional.orElse(null);
+    }
 
+    default <T> Optional<T> wrap(T value) {
+        return Optional.ofNullable(value);
+    }
 
 }

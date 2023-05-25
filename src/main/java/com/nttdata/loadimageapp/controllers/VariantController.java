@@ -40,7 +40,7 @@ public class VariantController {
     @GetMapping(value = "/{id}")
     public ResponseEntity<VariantDTO> getVariant(@PathVariable("id") Integer id) {
 
-        VariantDTO variant= variantService.getVariant(id);
+        VariantDTO variant= variantService.getVariant(id).get();
         logger.debug("Variant controller - getVariant por id: {}", variant);
         if(variant != null){
             return new ResponseEntity<>(variant, HttpStatus.OK);

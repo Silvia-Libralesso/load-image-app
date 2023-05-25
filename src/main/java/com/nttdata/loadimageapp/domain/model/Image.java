@@ -29,18 +29,6 @@ public class Image {
 
     }
 
-    /*
-    public Image(ImageEntity image) { //poner aquí constructor con atributos en lugar de con objeto imageEntity????
-        this.id = image.getId();
-        this.code = image.getCode();
-        this.campaign = image.getCampaign();
-        this.sequence = image.getSequence();
-        this.set_ = image.getSet_();
-        this.tags = image.getTags();
-
-    }
-    */
-
     public Image(Integer idimagen, String id, String code, String campaign, int sequence, String set_, String tags, List<VarDTO> variants) {
         this.idimagen = idimagen;
         this.id = id;

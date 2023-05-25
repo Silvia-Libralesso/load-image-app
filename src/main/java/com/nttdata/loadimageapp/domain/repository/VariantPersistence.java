@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface VariantPersistence {
 
     List<Variant> findVariantAll();
-    Variant readById(Integer id);
+    Optional<Variant> readById(Integer id);
     //Image getImage(Integer id);
     Variant createVariant(Variant variant);
     Variant updateVariant(Variant variant);

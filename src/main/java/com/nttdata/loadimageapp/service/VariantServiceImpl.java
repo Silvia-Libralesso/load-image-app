@@ -41,9 +41,11 @@ public class VariantServiceImpl implements VariantService {
     }
 
     @Override
-    public VariantDTO getVariant(Integer id) {
+    public Optional <VariantDTO> getVariant(Integer id) {
         logger.debug("Variante ServiceImpl- getVariant - id pasado por parámetro: {}", id);
-        return mapper.variantToVariantDTO(variantPersistence.readById(id));   }
+        VariantDTO variantDTO = mapper.variantToVariantDTO(variantPersistence.readById(id).get());
+        return mapper.wrap(variantDTO);
+    }
 
     @Override
     public VariantDTO createVariant(VariantDTO variantDTO) {
