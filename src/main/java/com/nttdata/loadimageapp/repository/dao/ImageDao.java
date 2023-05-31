@@ -11,5 +11,5 @@ import java.util.Optional;
 
 public interface ImageDao extends JpaRepository<ImageEntity, Integer> {
 
-    public Optional<Image> findByCode(String code);
+    //public Optional<Image> findByCode(String code);
 }

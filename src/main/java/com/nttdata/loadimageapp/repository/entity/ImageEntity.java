@@ -42,7 +42,7 @@ public class ImageEntity {
     @NotBlank (message = "El campo tags no puede estar vacío.")
     private String tags;
 
-    @OneToMany (mappedBy = "image", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany (mappedBy = "image", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List <VariantEntity> variantEntities = new ArrayList<>();
 
 

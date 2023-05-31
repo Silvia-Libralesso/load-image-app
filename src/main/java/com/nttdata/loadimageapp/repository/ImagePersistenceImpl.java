@@ -128,8 +128,9 @@ public class ImagePersistenceImpl implements ImagePersistence {
 
     }
 
-    @Override
+    /*@Override
     public Optional <Image> findByCode(String code){
         return imageDao.findByCode(code);
     }
+     */
 }

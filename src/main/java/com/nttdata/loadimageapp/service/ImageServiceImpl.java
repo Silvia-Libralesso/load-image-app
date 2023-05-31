@@ -5,6 +5,7 @@ import com.nttdata.loadimageapp.controllers.ImageDTO;
 import com.nttdata.loadimageapp.domain.model.Image;
 import com.nttdata.loadimageapp.domain.repository.ImagePersistence;
 import com.nttdata.loadimageapp.domain.service.ImageService;
+import com.nttdata.loadimageapp.exceptions.ImageNotFoundException;
 import com.nttdata.loadimageapp.service.mapper.ImageImageDTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ public class ImageServiceImpl implements ImageService {
         logger.debug("Imagen ServiceImpl- getImage - id pasado por parámetro: {}", id);
 
 
-        ImageDTO imagenDTO = mapper.imageToImageDTO(imagePersistence.readById(id).get());
+        ImageDTO imagenDTO = mapper.imageToImageDTO(imagePersistence.readById(id).orElseThrow(() -> new ImageNotFoundException()));
 
         return mapper.wrap(imagenDTO);
 
@@ -85,10 +86,10 @@ public class ImageServiceImpl implements ImageService {
         imagePersistence.deleteImage(id);
     }
 
-    @Override
+    /*@Override
     public Optional <ImageDTO> findByCode(String code){
         ImageDTO imagenDTO =  mapper.imageToImageDTO(imagePersistence.findByCode(code).get());
         return mapper.wrap(imagenDTO);
-    }
+    }*/
 
 }

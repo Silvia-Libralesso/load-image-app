@@ -16,7 +16,7 @@ public interface ImagePersistence {
     Image updateImage(Image image);
     void deleteImage(Integer id);
 
-    public Optional <Image> findByCode (String code);
+    //public Optional <Image> findByCode (String code);
 
 
 }

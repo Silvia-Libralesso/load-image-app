@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ImageController.class)
-public class ImageControllerTest {
+public class ImageControllerTests {
 
     @MockBean
     private ImagePersistenceImpl imagePersistenceImpl;

@@ -1,8 +1,6 @@
 package com.nttdata.loadimageapp.controllers;
 
 import com.nttdata.loadimageapp.domain.service.ImageService;
-import com.nttdata.loadimageapp.exceptions.ImageNotFoundException;
-import com.nttdata.loadimageapp.exceptions.ServerException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import javax.sql.rowset.serial.SerialException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("images")
